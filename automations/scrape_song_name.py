@@ -5,7 +5,7 @@ import time
 pyautogui.PAUSE = 0.8
 songs = []
 
-def browse_music(album):
+def browse_music(album, artist):
     pyautogui.hotkey("alt", "tab")
     pyautogui.hotkey("ctrl", "t")
     pyautogui.write("music.youtube.com")
@@ -17,7 +17,7 @@ def browse_music(album):
         confidence=0.8
     )
     pyautogui.click(search_bar)
-    pyautogui.write(f"{album} album")
+    pyautogui.write(f"{artist} {album} album")
     pyautogui.press("enter")
 
     time.sleep(2)
@@ -44,10 +44,10 @@ def copy_song_name(total_songs, copied_songs, visible_songs=8):
 
     return copied_songs
 
-def scrape_song_name(album, total_songs):
+def scrape_song_name(album, artist, total_songs):
     copied_songs = 0
     print("Starting to scrape song name...")
-    browse_music(album)
+    browse_music(album, artist)
     pyautogui.moveTo(905, 270)
 
     while copied_songs < total_songs:

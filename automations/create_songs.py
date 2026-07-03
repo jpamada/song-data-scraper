@@ -4,7 +4,10 @@ import pyperclip
 
 pyautogui.PAUSE = 0.8
 
-def add_input(artist, album):
+def add_input(artist, album, total_songs):
+    created_songs = 0
+    skipped_songs = 0
+
     with open("data/song_names.txt") as song_file, open("data/embed_urls.txt") as embed_file:
         for song, embed in zip(song_file, embed_file):
             song = song.strip()
@@ -66,11 +69,33 @@ def add_input(artist, album):
                 confidence=0.75
             )
             pyautogui.click(add_song_btn)
+            time.sleep(0.5)
+
+            try:
+                duplicate_error = pyautogui.locateCenterOnScreen(
+                    "assets/personal/duplicate_error.png",
+                    confidence=0.75
+                )
+            except pyautogui.ImageNotFoundException:
+                duplicate_error = None
+
+            if duplicate_error:
+                back_btn = pyautogui.locateCenterOnScreen(
+                    "assets/personal/back_btn.png",
+                    confidence=0.75
+                )
+                pyautogui.click(back_btn)
+                skipped_songs += 1
+            else:
+                created_songs += 1
+
+            print(f"Processing: {created_songs}/{total_songs} created, skipped {skipped_songs}")
+
 
     pyautogui.hotkey("alt", "tab")
     print("Completed: Created Songs.")
         
-def create_songs(artist, album):
+def create_songs(artist, album, total_songs):
     print("Starting to add new songs...")
     pyautogui.hotkey("ctrl", "1")
-    add_input(artist, album)
+    add_input(artist, album, total_songs)

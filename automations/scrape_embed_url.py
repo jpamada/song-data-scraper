@@ -5,7 +5,7 @@ import pyperclip
 embed_urls = []
 pyautogui.PAUSE = 0.8
 
-def browse_spotify(album, press_count=1):
+def browse_spotify(album, artist, press_count=1):
     pyautogui.hotkey("ctrl", "t")
     pyautogui.write("spotify.com")
     pyautogui.press("enter")
@@ -17,7 +17,7 @@ def browse_spotify(album, press_count=1):
     )
 
     pyautogui.click(search_bar)
-    pyautogui.write(f"{album} album")
+    pyautogui.write(f"{artist} {album} album")
     time.sleep(1)
     pyautogui.press("down", presses=press_count)
     pyautogui.press("enter")
@@ -79,10 +79,10 @@ def copy_song_embed_url(
 
     return copied_songs
 
-def scrape_embed_url(album, total_songs, press_count):
+def scrape_embed_url(album, artist, total_songs, press_count):
     copied_songs = 0
     print("Starting to scrape song embed url...")
-    browse_spotify(album, press_count)
+    browse_spotify(album, artist, press_count)
     scroll(-395)
 
     while copied_songs != total_songs:
